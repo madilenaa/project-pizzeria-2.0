@@ -64,17 +64,17 @@
       console.log('Accordion works!');
     }
 
-     renderInMenu(){
+    renderInMenu(){
       const thisProduct = this;
 
-       /* generate HTML based on template*/
-       const generatedHTML = templates.menuProduct(thisProduct.data);
-       /* create element using utils.createElementFromHTML*/
-       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
-       /* find menu container */
-       const menuContainer = document.querySelector(select.containerOf.menu);
-       /* add element do menu*/
-       menuContainer.appendChild(thisProduct.element);
+      /* generate HTML based on template*/
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+      /* create element using utils.createElementFromHTML*/
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      /* find menu container */
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      /* add element do menu*/
+      menuContainer.appendChild(thisProduct.element);
     }
 
     initAccordion(){

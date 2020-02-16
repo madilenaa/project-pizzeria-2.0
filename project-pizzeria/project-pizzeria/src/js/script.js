@@ -152,34 +152,32 @@
       const formData = utils.serializeFormToObject(thisProduct.form);
       console.log('formData', formData);
 
-
-      //zapisanie do zmiennej price domyślną cenę z thisProduct.data.price
+      // wrote to variable price default price from thisProduct.data.price
       let price = thisProduct.data.price;
       console.log('price:', price);
 
-      //rozpoczecie pętli po wszystkich params
+      // start loop for params
       for (let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
         console.log('param:', param);
 
-        //rozpoczecie petli po wszystkich opcjach danego parametru
+        //start loop for every options param
         for (let optionId in param.options) {
           const option = param.options[optionId];
           console.log('option:', option);
 
-          //jesli sprawdzona opcja NIE JEST domyslna, podwyzszamy cene o cene tej opcji
+          // if option ISN'T default, price is up
           if (formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId) && !option.default) {
             price = price + param.options[optionId].price;
           }
-          //jesli sprawdzona opcja JEST domyslna i nie jest zaznaczona, obnizamy cene
+          // if option IS default and ISN'T check, price is down (else if!)
           else if (!(formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId)) && option.default) {
             price = price - param.options[optionId].price;
           }
         }
       }
-      //wartosc zmiennej price do elementu thisProduct.priceElem
+      //value variable price to thisProduct.priceElem
       thisProduct.priceElem.innerHTML = price;
-
     }
   }
 

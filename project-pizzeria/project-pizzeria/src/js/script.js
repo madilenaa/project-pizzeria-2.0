@@ -61,6 +61,7 @@
       thisProduct.renderInMenu();
       thisProduct.getElements();
       thisProduct.initAccordion();
+      thisProduct.initOrderForm();
 
     }
 
@@ -84,7 +85,7 @@
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
-      thisProduct.priceElem - thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
     }
 
     initAccordion(){
@@ -152,6 +153,7 @@
       const formData = utils.serializeFormToObject(thisProduct.form);
       console.log('formData', formData);
 
+
       //zapisanie do zmiennej price domyślną cenę z thisProduct.data.price
       let price = thisProduct.data.price;
       console.log('price:', price);
@@ -167,7 +169,7 @@
           console.log('option:', option);
 
           //jesli sprawdzona opcja NIE JEST domyslna, podwyzszamy cene o cene tej opcji
-          if (formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId) && option.default) {
+          if (formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId) && !option.default) {
             price = price + param.options[optionId].price;
           }
           //jesli sprawdzona opcja JEST domyslna i nie jest zaznaczona, obnizamy cene

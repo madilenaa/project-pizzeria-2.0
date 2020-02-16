@@ -51,7 +51,7 @@
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
-  class Product{
+  class Product {
     constructor(id, data){
       const thisProduct = this;
 
@@ -59,22 +59,32 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
-      console.log('new Product:', thisProduct);
+      thisProduct.getElements();
       thisProduct.initAccordion();
-      console.log('Accordion works!');
-      }
 
-      renderInMenu(){
-        const thisProduct = this;
+    }
 
-        /* generate HTML based on template*/
-        const generatedHTML = templates.menuProduct(thisProduct.data);
-        /* create element using utils.createElementFromHTML*/
-        thisProduct.element = utils.createDOMFromHTML(generatedHTML);
-        /* find menu container */
-        const menuContainer = document.querySelector(select.containerOf.menu);
-        /* add element do menu*/
-        menuContainer.appendChild(thisProduct.element);
+    renderInMenu(){
+      const thisProduct = this;
+
+      /* generate HTML based on template*/
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+      /* create element using utils.createElementFromHTML*/
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      /* find menu container */
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      /* add element do menu*/
+      menuContainer.appendChild(thisProduct.element);
+    }
+
+    getElements(){
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem - thisProduct.element.querySelector(select.menuProduct.priceElem);
     }
 
     initAccordion(){
@@ -111,6 +121,64 @@
         }
       /* END: click event listener to trigger */
       });
+    }
+
+    initOrderForm(){
+      const thisProduct = this;
+      console.log('initOrderForm:', thisProduct);
+
+      thisProduct.form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+
+      for(let input of thisProduct.formInputs) {
+        input.addEventListener('change', function() {
+          thisProduct.processOrder();
+        });
+      }
+
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+      console.log('initOrderForm:', thisProduct);
+    }
+
+    processOrder() {
+      const thisProduct = this;
+      console.log('processOrder:', thisProduct);
+
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData', formData);
+
+      //zapisanie do zmiennej price domyślną cenę z thisProduct.data.price
+      let price = thisProduct.data.price;
+      console.log('price:', price);
+
+      //rozpoczecie pętli po wszystkich params
+      for (let paramId in thisProduct.data.params) {
+        const param = thisProduct.data.params[paramId];
+        console.log('param:', param);
+
+        //rozpoczecie petli po wszystkich opcjach danego parametru
+        for (let optionId in param.options) {
+          const option = param.options[optionId];
+          console.log('option:', option);
+
+          //jesli sprawdzona opcja NIE JEST domyslna, podwyzszamy cene o cene tej opcji
+          if (formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId) && option.default) {
+            price = price + param.options[optionId].price;
+          }
+          //jesli sprawdzona opcja JEST domyslna i nie jest zaznaczona, obnizamy cene
+          else if (!(formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId)) && option.default) {
+            price = price - param.options[optionId].price;
+          }
+        }
+      }
+      //wartosc zmiennej price do elementu thisProduct.priceElem
+      thisProduct.priceElem.innerHTML = price;
+
     }
   }
 

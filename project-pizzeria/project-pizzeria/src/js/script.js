@@ -85,6 +85,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
     initAccordion() {
@@ -173,6 +174,23 @@
           // if option IS default and ISN'T check, price is down (else if!)
           else if (!(formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId)) && option.default) {
             price = price - param.options[optionId].price;
+          }
+
+          // make constant where are elements
+          const optionImages = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
+          console.log('images:', optionImages );
+
+          //if option is "check"  - add classNames.menuProduct.imageVisible
+          if (formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId)) {
+            for (let images of optionImages) {
+              images.classList.add(classNames.menuProduct.imageVisible);
+            }
+          }
+          // if option isn't "check" - remove classNames.menuProduct.imageVisible
+          else {
+            for (let images of optionImages) {
+              images.classList.remove(classNames.menuProduct.imageVisible);
+            }
           }
         }
       }

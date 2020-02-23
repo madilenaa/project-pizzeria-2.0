@@ -146,7 +146,7 @@
       /* END: click event listener to trigger */
       });
     }
-    initOrderForm(){
+    initOrderForm() {
       const thisProduct = this;
       //console.log('initOrderForm:', thisProduct);
       thisProduct.form.addEventListener('submit', function(event) {
@@ -238,7 +238,7 @@
       console.log('ZAWARTOSC:', thisProduct.params);
     }
 
-    addToCart(){
+    addToCart() {
       const thisProduct = this;
 
       thisProduct.name = thisProduct.data.name;
@@ -246,11 +246,10 @@
 
       app.cart.add(thisProduct);
     }
-
   }
 
-  class AmountWidget{
-    constructor(element){
+  class AmountWidget {
+    constructor(element) {
       const thisWidget = this;
 
       thisWidget.getElements(element);
@@ -319,7 +318,7 @@
       console.log('new Cart', thisCart);
     }
 
-    getElements(element){
+    getElements(element) {
       const thisCart = this;
       thisCart.dom = {};
       thisCart.dom.wrapper = element;
@@ -328,10 +327,10 @@
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
     }
 
-    initActions(){
+    initActions() {
       const thisCart = this;
 
-      thisCart.dom.toggleTrigger.addEventListener('click', function(){
+      thisCart.dom.toggleTrigger.addEventListener('click', function() {
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
     }
@@ -356,18 +355,18 @@
         new Product(productData, thisApp.data.products[productData]);
       }
     },
-    initData: function(){
+    initData: function() {
       const thisApp = this;
       thisApp.data = dataSource;
     },
-    initCart: function(){
+    initCart: function() {
       const thisApp = this;
 
       const cartElem = document.querySelector(select.containerOf.cart);
       thisApp.cart = new Cart(cartElem);
     },
 
-    init: function(){
+    init: function() {
       const thisApp = this;
       //console.log('*** App starting ***');
       //console.log('thisApp:', thisApp);

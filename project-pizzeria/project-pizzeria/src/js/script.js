@@ -1,8 +1,6 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
-
 {
   'use strict';
-
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
@@ -27,7 +25,7 @@
     },
     widgets: {
       amount: {
-        input: 'input[name="amount"]',
+        input: 'input.amount', // CODECHANGED
         linkDecrease: 'a[href="#less"]',
         linkIncrease: 'a[href="#more"]',
       },
@@ -51,9 +49,8 @@
       edit: '[href="#edit"]',
       remove: '[href="#remove"]',
     },
-  // CODE ADDED END
+    // CODE ADDED END
   };
-
   const classNames = {
     menuProduct: {
       wrapperActive: 'active',
@@ -63,19 +60,19 @@
     cart: {
       wrapperActive: 'active',
     },
-  // CODE ADDED END
+    // CODE ADDED END
   };
-
   const settings = {
     amountWidget: {
       defaultValue: 1,
       defaultMin: 1,
       defaultMax: 9,
-    },
+    }, // CODECHANGED
     // CODE ADDED START
     cart: {
       defaultDeliveryFee: 20,
     },
+    // CODE ADDED END
   };
 
   const templates = {
@@ -87,10 +84,8 @@
   class Product {
     constructor(id, data) {
       const thisProduct = this;
-
       thisProduct.id = id;
       thisProduct.data = data;
-
       thisProduct.renderInMenu();
       thisProduct.getElements();
       thisProduct.initAccordion();
@@ -101,7 +96,6 @@
 
     renderInMenu() {
       const thisProduct = this;
-
       /* generate HTML based on template*/
       const generatedHTML = templates.menuProduct(thisProduct.data);
       /* create element using utils.createElementFromHTML*/
@@ -111,10 +105,8 @@
       /* add element do menu*/
       menuContainer.appendChild(thisProduct.element);
     }
-
     getElements() {
       const thisProduct = this;
-
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
@@ -126,18 +118,14 @@
 
     initAccordion() {
       const thisProduct = this;
-
       /* find the clickable trigger (the element that should react to clicking) */
       const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       //console.log(clickableTrigger);
-
       /* START: click event listener to trigger */
       clickableTrigger.addEventListener('click', function(event) {
         //console.log('clicked');
-
         /* prevent default action for event */
         event.preventDefault();
-
         /* toggle active class on element of thisProduct */
         thisProduct.element.classList.toggle('active');
 
@@ -147,7 +135,6 @@
 
         /* START LOOP: for each active product */
         for (let activeProduct of activeProducts){
-
           /* START: if the active product isn't the element of thisProduct */
           if (activeProduct != thisProduct.element) {
             /* remove class active for the active product */
@@ -159,22 +146,18 @@
       /* END: click event listener to trigger */
       });
     }
-
     initOrderForm(){
       const thisProduct = this;
       //console.log('initOrderForm:', thisProduct);
-
       thisProduct.form.addEventListener('submit', function(event) {
         event.preventDefault();
         thisProduct.processOrder();
       });
-
       for(let input of thisProduct.formInputs) {
         input.addEventListener('change', function() {
           thisProduct.processOrder();
         });
       }
-
       thisProduct.cartButton.addEventListener('click', function(event) {
         event.preventDefault();
         thisProduct.processOrder();
@@ -195,24 +178,19 @@
     processOrder() {
       const thisProduct = this;
       //console.log('processOrder:', thisProduct);
-
       const formData = utils.serializeFormToObject(thisProduct.form);
       //console.log('formData', formData);
-
       // wrote to variable price default price from thisProduct.data.price
       let price = thisProduct.data.price;
       //console.log('price:', price);
-
       // start loop for params
       for (let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
         //console.log('param:', param);
-
         //start loop for every options param
         for (let optionId in param.options) {
           const option = param.options[optionId];
           //console.log('option:', option);
-
           // if option ISN'T default, price is up
           if (formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId) && !option.default) {
             price = price + param.options[optionId].price;
@@ -221,11 +199,9 @@
           else if (!(formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId)) && option.default) {
             price = price - param.options[optionId].price;
           }
-
           // make constant where are elements
           const optionImages = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
           //console.log('images:', optionImages );
-
           //if option is "check"  - add classNames.menuProduct.imageVisible
           if (formData.hasOwnProperty(paramId) && formData[paramId].includes(optionId)) {
             for (let images of optionImages) {
@@ -310,15 +286,12 @@
     initMenu: function() {
       const thisApp = this;
       //console.log('thisApp.data', thisApp.data);
-
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
       }
     },
-
     initData: function(){
       const thisApp = this;
-
       thisApp.data = dataSource;
     },
 
@@ -332,9 +305,7 @@
 
       thisApp.initData();
       thisApp.initMenu();
-
     },
   };
-
   app.init();
 }

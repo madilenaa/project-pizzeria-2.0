@@ -1,26 +1,30 @@
+import {select, templates} from '../settings.js';
+import AmountWidget from './AmountWidget.js';
+
+
 class Booking {
   constructor(bookingWidget) {
     const thisBooking = this;
 
-    initBooking.render(bookingWidget);
-    initBooking.initWidgets();
+    thisBooking.render(bookingWidget);
+    thisBooking.initWidgets();
 
   }
 
   render(element){
-    thisBooking = this;
+    const thisBooking = this;
 
     const generatedHTML = templates.bookingWidget();
     thisBooking.dom = {};
     thisBooking.dom.wrapper = element;
-    thisBooking.dom.innerHTML = generatedHTML;
+    thisBooking.dom.wrapper.innerHTML = generatedHTML;
     thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
-    thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
+    thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
 
   }
 
   initWidgets() {
-    thisBooking = this;
+    const thisBooking = this;
 
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);

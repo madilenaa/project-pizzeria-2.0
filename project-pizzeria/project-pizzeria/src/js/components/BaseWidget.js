@@ -1,5 +1,5 @@
-import {select, templates} from '../settings.js';
-import AmountWidget from './AmountWidget.js';
+//import {select, templates} from '../settings.js';
+//import AmountWidget from './AmountWidget.js';
 
 class BaseWidget {
   constructor(wrapperElement, initialValue) {
@@ -38,12 +38,12 @@ class BaseWidget {
   }
 
   parseValue(value){
-    const thisWidget = this;
+    //const thisWidget = this;
     return parseInt(value);
   }
 
   isValid(value) {
-    const thisWidget = this;
+    //const thisWidget = this;
     return !isNaN(value);
   }
 

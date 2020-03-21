@@ -6,15 +6,6 @@ import Booking from './components/Booking.js';
 
 const app = {
 
-  initBooking: function() {
-    const thisApp = this;
-
-    const bookingWidget = document.querySelector(select.containerOf.booking);
-
-    thisApp.booking = new Booking(bookingWidget);
-
-  },
-
   initPages: function() {
     const thisApp = this;
 
@@ -23,7 +14,7 @@ const app = {
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
 
     const idFromHash = window.location.hash.replace('#/', '');
-    console.log('idFromHash', idFromHash);
+    //console.log('idFromHash', idFromHash);
 
     let pageMatchingHash = thisApp.pages[0].id;
 
@@ -84,7 +75,7 @@ const app = {
         return rawResponse.json();
       })
       .then(function(parsedResponse){
-        console.log('parsedResponse', parsedResponse);
+        //console.log('parsedResponse', parsedResponse);
 
         /* save parsedResponse as thisApp.data.products */
         thisApp.data.products = parsedResponse;
@@ -93,6 +84,22 @@ const app = {
       });
     //console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
+
+  init: function() {
+    const thisApp = this;
+    //console.log('*** App starting ***');
+    //console.log('thisApp:', thisApp);
+    //console.log('classNames:', classNames);
+    //console.log('settings:', settings);
+    //console.log('templates:', templates);
+
+    thisApp.initData();
+    thisApp.initCart();
+    thisApp.initPages();
+    //thisApp.initMenu();
+    thisApp.initBooking();
+  },
+
   initCart: function() {
     const thisApp = this;
 
@@ -106,22 +113,14 @@ const app = {
     });
   },
 
-
-
-  init: function() {
+  initBooking: function() {
     const thisApp = this;
-    //console.log('*** App starting ***');
-    //console.log('thisApp:', thisApp);
-    //console.log('classNames:', classNames);
-    //console.log('settings:', settings);
-    //console.log('templates:', templates);
 
-    thisApp.initPages();
+    const bookingWidget = document.querySelector(select.containerOf.booking);
 
-    thisApp.initData();
-    //thisApp.initMenu();
-    thisApp.initCart();
-    thisApp.initBooking();
+    thisApp.booking = new Booking(bookingWidget);
+
   },
+
 };
 app.init();

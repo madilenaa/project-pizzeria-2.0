@@ -34,13 +34,13 @@ class DatePicker extends BaseWidget{
       ],
       onChange: function(selectedDates, dateStr) {
         thisWidget.value = dateStr;
-      },
+      }
     });
   }
 
   parseValue(newValue) {
     //const thisWidget = this;
-    return parseInt(newValue);
+    return newValue;
   }
 
   isValid() {

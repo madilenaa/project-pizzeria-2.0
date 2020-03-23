@@ -2,6 +2,7 @@
   padding: ($base-size * 5) 0($base-size * 8) 0;
   background: $color-dark;
   color: $color-light;
+  margin-bottom: 20px;
 
   &__wrapper {
     position: relative;
@@ -50,6 +51,7 @@
     background: darken($color-dark, 5%);
     border-top-left-radius: $radius;
     border-top-right-radius: $radius;
+    visibility: hidden;
 
     &.active {
       background: lighten($color-dark, 75%);
